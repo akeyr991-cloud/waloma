@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#06265f">
+  <title>WALOMA | Association Management</title>
+  <link rel="stylesheet" href="/static/styles.css">
+  <style>
+    select {
+      width: 100%;
+      padding: 12px 13px;
+      border: 1px solid #cbd4e2;
+      border-radius: 9px;
+      font: inherit;
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <img src="/static/waloma-logo.png" alt="WALOMA logo">
+    <span>Association Management System</span>
+  </header>
+
+  <main class="shell">
+    <section class="welcome">
+      <p class="eyebrow">WELCOME TO WALOMA</p>
+      <h1>One place for your association.</h1>
+      <p>Manage membership with clarity, accountability, and confidence.</p>
+    </section>
+
+    <section class="panel" aria-labelledby="login-title">
+      <h2 id="login-title">Sign in</h2>
+      <p class="muted">Use your approved WALOMA account.</p>
+
+      <form id="login-form">
+        <label for="email">Email address</label>
+        <input id="email" name="email" type="email" autocomplete="username" required>
+
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" required>
+
+        <button type="submit">Sign in</button>
+        <p id="login-message" class="message" role="status"></p>
+      </form>
+
+      <div class="divider"></div>
+
+      <h3>New member?</h3>
+      <p class="muted">Submit your registration. An administrator must approve it before you can sign in.</p>
+
+      <form id="register-form" class="register-form">
+        <label for="full-name">Full name</label>
+        <input id="full-name" name="full_name" required minlength="2">
+
+        <label for="reg-email">Email address</label>
+        <input id="reg-email" name="email" type="email" required>
+
+        <label for="phone">Phone number</label>
+        <input id="phone" name="phone" type="tel" required minlength="5">
+
+        <label for="reg-password">Create password</label>
+        <input id="reg-password" name="password" type="password" required minlength="10" autocomplete="new-password">
+
+        <small>Use at least 10 characters.</small>
+        <button type="submit" class="secondary">Submit registration</button>
+        <p id="register-message" class="message" role="status"></p>
+      </form>
+    </section>
+
+    <section id="account-panel" class="panel hidden">
+      <h2>Account overview</h2>
+      <p id="account-details"></p>
+      <button id="logout-button" class="secondary">Sign out</button>
+    </section>
+
+    <section id="workspace" class="workspace hidden">
+      <div class="workspace-head">
+        <div>
+          <p class="eyebrow">WALOMA WORKSPACE</p>
+          <h2>Association operations</h2>
+        </div>
+        <button id="refresh-button" class="small-button">Refresh data</button>
+      </div>
+
+      <div class="workspace-grid">
+        <section class="panel">
+          <h3>Members</h3>
+          <p class="muted">Approved and pending member directory.</p>
+          <button id="load-members" class="secondary">Load members</button>
+          <div id="members-list" class="data-list"></div>
+        </section>
+
+        <section class="panel" id="meeting-tools">
+          <h3>Create meeting</h3>
+          <form id="meeting-form">
+            <label>Meeting title</label>
+            <input name="title" required>
+
+            <label>Location</label>
+            <input name="location">
+
+            <label>Date and time</label>
+            <input name="starts_at" type="datetime-local" required>
+
+            <label>Description</label>
+            <input name="description">
+
+            <button type="submit">Create meeting</button>
+          </form>
+          <div id="meetings-list" class="data-list"></div>
+        </section>
+
+        <section class="panel" id="finance-tools">
+          <h3>Create monthly contribution</h3>
+          <form id="contribution-form">
+            <label>Member ID</label>
+            <input name="member_id" required>
+
+            <label>Period (YYYY-MM)</label>
+            <input name="period" type="month" required>
+
+            <label>Amount due</label>
+            <input name="amount_due" type="number" min="0.01" step="0.01" required>
+
+            <label>Description</label>
+            <input name="description">
+
+            <button type="submit">Create contribution</button>
+          </form>
+
+          <div class="divider"></div>
+
+          <h3>Record payment</h3>
+          <form id="payment-form">
+            <label>Contribution ID</label>
+            <input name="contribution_id" required>
+
+            <label>Amount received</label>
+            <input name="amount" type="number" min="0.01" step="0.01" required>
+
+            <label>Payment method</label>
+            <select name="method">
+              <option value="cash">Cash</option>
+              <option value="bank">Bank</option>
+              <option value="mobile">Mobile payment</option>
+            </select>
+
+            <label>Reference</label>
+            <input name="reference">
+
+            <button type="submit">Record payment</button>
+          </form>
+          <div id="finance-message" class="message"></div>
+        </section>
+
+        <section class="panel">
+          <h3>Contributions and balances</h3>
+          <button id="load-contributions" class="secondary">Load my contributions</button>
+          <div id="contributions-list" class="data-list"></div>
+
+          <h3>Payment history</h3>
+          <button id="load-payments" class="secondary">Load payments</button>
+          <div id="payments-list" class="data-list"></div>
+        </section>
+
+        <section class="panel" id="password-tools">
+          <h3>Change Password</h3>
+          <p class="muted">Available to every signed-in account.</p>
+          <form id="password-form">
+            <label for="current-password">Current password</label>
+            <input id="current-password" name="current_password" type="password" required autocomplete="current-password">
+            <label for="new-password">New password</label>
+            <input id="new-password" name="new_password" type="password" required minlength="10" maxlength="128" autocomplete="new-password">
+            <label for="confirm-password">Confirm new password</label>
+            <input id="confirm-password" name="confirm_password" type="password" required minlength="10" maxlength="128" autocomplete="new-password">
+            <button type="submit">Change password</button>
+          </form>
+          <div id="password-message" class="message" role="status"></div>
+        </section>
+
+        <section class="panel hidden" id="approval-tools">
+          <h3>Member Registration Requests</h3>
+          <p class="muted">Review members who registered themselves and are awaiting approval.</p>
+          <button id="load-pending" class="secondary">Load pending registrations</button>
+          <div id="pending-list" class="data-list"></div>
+          <div id="approval-message" class="message" role="status"></div>
+        </section>
+
+        <section class="panel hidden" id="staff-tools">
+          <h3>Staff Accounts</h3>
+          <p class="muted">Admin-only: create Treasurer and Secretary user accounts. Members register themselves.</p>
+
+          <form id="staff-form">
+            <label for="staff-full-name">Full name</label>
+            <input id="staff-full-name" name="full_name" required minlength="2">
+
+            <label for="staff-email">Email address</label>
+            <input id="staff-email" name="email" type="email" required>
+
+            <label for="staff-phone">Phone number</label>
+            <input id="staff-phone" name="phone" type="tel" required minlength="5">
+
+            <label for="staff-role">Staff role</label>
+            <select id="staff-role" name="role" required>
+              <option value="treasurer">Treasurer</option>
+              <option value="secretary">Secretary</option>
+            </select>
+
+            <label for="staff-password">Initial password</label>
+            <input id="staff-password" name="password" type="password" required minlength="10" maxlength="128" autocomplete="new-password">
+
+            <button type="submit">Add user account</button>
+          </form>
+
+          <div id="staff-message" class="message" role="status"></div>
+
+          <div class="divider"></div>
+
+          <h3>Staff Directory</h3>
+          <button id="load-staff" class="secondary">Load staff accounts</button>
+          <div id="staff-list" class="data-list"></div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer>WALOMA - Secure association management</footer>
+  <script src="/static/app.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "name": "WALOMA Association Management",
+  "short_name": "WALOMA",
+  "description": "Association membership and operations management",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f4f7fc",
+  "theme_color": "#06265f",
+  "icons": [{"src": "/static/waloma-logo.png", "sizes": "512x512", "type": "image/png", "purpose": "any"}]
+}
